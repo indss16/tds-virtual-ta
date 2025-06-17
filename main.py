@@ -41,3 +41,7 @@ async def answer_question(payload: QuestionPayload):
             for post in matched
         ]
     }
+@app.get("/")
+def root():
+    return {"message": "Your FastAPI app is running successfully!"}
+
