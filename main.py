@@ -1,10 +1,19 @@
-# main.py
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware  # ✅ ADD THIS
 from pydantic import BaseModel
 from typing import Optional
 import json
 
 app = FastAPI()
+
+# ✅ ALLOW ALL ORIGINS FOR TESTING (you can restrict later)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Load the data we scraped earlier
 with open("scraper/discourse_data.json", encoding="utf-8") as f:
@@ -41,7 +50,7 @@ async def answer_question(payload: QuestionPayload):
             for post in matched
         ]
     }
+
 @app.get("/")
 def root():
     return {"message": "Your FastAPI app is running successfully!"}
-
